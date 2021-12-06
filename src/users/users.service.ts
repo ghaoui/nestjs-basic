@@ -13,11 +13,12 @@ export class UsersService {
 
   constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
 
-  async create(name: string, email: string, password: string) {
+  async create(name: string, email: string, password: string, userName: string) {
     const newUser = new this.userModel({
       name: name,
       email: email,
       password: password,
+      userName: userName,
     });
     const result = await newUser.save();
     return result;
