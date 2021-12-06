@@ -3,9 +3,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import {MongooseModule} from '@nestjs/mongoose';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [UsersModule,MongooseModule.forRoot('mongodb+srv://admin:admin@ghaoui.vuvds.mongodb.net/myFirstDatabase?retryWrites=true&w=majority')],
+  imports: [ConfigModule.forRoot(),UsersModule,MongooseModule.forRoot(process.env.MONGODB_URL)],
   controllers: [AppController],
   providers: [AppService],
 })

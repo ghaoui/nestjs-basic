@@ -19,7 +19,7 @@ export class UsersService {
       email: email,
       password: password,
     });
-    const result=  await newUser.save();
+    const result = await newUser.save();
     return result;
   }
 
