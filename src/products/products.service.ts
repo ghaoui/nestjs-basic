@@ -9,12 +9,14 @@ import { Product } from './product.model';
 export class ProductsService {
   private products: Product[];
 
-  constructor(@InjectModel('Product') private readonly productModel: Model<Product>) {}
+  constructor(
+    @InjectModel('Product') private readonly productModel: Model<Product>,
+  ) {}
   async create(name: string, quantity: number, price: number) {
     const newUser = new this.productModel({
       name,
       quantity,
-      price
+      price,
     });
     const result = await newUser.save();
     return result;
@@ -29,7 +31,10 @@ export class ProductsService {
   }
 
   async update(id: string, name: string, quantity: number, price: number) {
-    const result = await this.productModel.updateOne({ _id: id }, { name, quantity, price });
+    const result = await this.productModel.updateOne(
+      { _id: id },
+      { name, quantity, price },
+    );
     return result;
     //return `This action updates a #${id} product`;
   }
