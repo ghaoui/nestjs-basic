@@ -35,7 +35,12 @@ export class ProductsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body('name') name: string, @Body('quantity') quantity: number, @Body('price') price: number) {
+  update(
+    @Param('id') id: string,
+    @Body('name') name: string,
+    @Body('quantity') quantity: number,
+    @Body('price') price: number,
+  ) {
     return this.productsService.update(id, name, quantity, price);
   }
 

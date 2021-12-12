@@ -6,12 +6,14 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { LocalAuthGuard } from './auth/local-auth.guard';
 import { RolesGuard } from './auth/roles.guard';
 import { hasRoles } from './decorators/roles.decorator';
+import { UsersService } from './users/users.service';
 
 @Controller()
 export class AppController {
   constructor(
     private readonly appService: AppService,
     private authService: AuthService,
+    private usersService: UsersService,
   ) {}
 
   //@UseGuards(AuthenticatedGuard)
@@ -29,5 +31,15 @@ export class AppController {
       username: req.user.username,
       id: req.user.id,
     });
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('me')
+  async me(@Request() req) {
+    const { password, ...result } = await this.usersService.findOne(
+      req.user.username,
+    );
+
+    return result;
   }
 }

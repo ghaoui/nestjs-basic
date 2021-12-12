@@ -33,14 +33,14 @@ export class UsersService {
   }
 
   async findOne(userName: string) {
-    const result = await this.userModel.findOne({ userName: userName }).exec();
-    if (result)
+    const result = await this.userModel.findOne({ userName: userName }).lean();
+
+    if (result) {
       return {
         ...result,
-        _id: result._id.toString(),
         username: result.userName,
-        role: result.role,
       };
+    }
     return null;
   }
 
