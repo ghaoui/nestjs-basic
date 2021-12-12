@@ -34,8 +34,13 @@ export class UsersService {
 
   async findOne(userName: string) {
     const result = await this.userModel.findOne({ userName: userName });
-    console.log(result._id.toString(), 'result');
-    return { ...result, _id: result._id.toString(), username: result.userName };
+    if (result)
+      return {
+        ...result,
+        _id: result._id.toString(),
+        username: result.userName,
+      };
+    return null;
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
