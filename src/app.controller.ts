@@ -22,7 +22,6 @@ export class AppController {
   @Post('/login')
   @UseGuards(LocalAuthGuard)
   login(@Request() req): any {
-    console.log('KINA', req.user);
     return this.authService.login({
       username: req.user.username,
       id: req.user.id,
