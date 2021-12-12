@@ -33,12 +33,13 @@ export class UsersService {
   }
 
   async findOne(userName: string) {
-    const result = await this.userModel.findOne({ userName: userName });
+    const result = await this.userModel.findOne({ userName: userName }).exec();
     if (result)
       return {
         ...result,
         _id: result._id.toString(),
         username: result.userName,
+        role: result.role,
       };
     return null;
   }

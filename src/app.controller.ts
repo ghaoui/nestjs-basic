@@ -4,6 +4,8 @@ import { AuthService } from './auth/auth.service';
 import { AuthenticatedGuard } from './auth/authenticated.guard';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { LocalAuthGuard } from './auth/local-auth.guard';
+import { RolesGuard } from './auth/roles.guard';
+import { hasRoles } from './decorators/roles.decorator';
 
 @Controller()
 export class AppController {
@@ -13,7 +15,8 @@ export class AppController {
   ) {}
 
   //@UseGuards(AuthenticatedGuard)
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @hasRoles('admin')
   @Get('protected')
   getHello(): string {
     return this.appService.getHello();
