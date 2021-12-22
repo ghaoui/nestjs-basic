@@ -28,8 +28,10 @@ export class UsersService {
     return result;
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async findAll() {
+    console.log('findAll');
+    const result = await this.userModel.find({ role: 'client' });
+    return result;
   }
 
   async findOne(userName: string) {
