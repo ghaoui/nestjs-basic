@@ -17,12 +17,14 @@ export class UsersService {
     email: string,
     password: string,
     userName: string,
+    role: string,
   ) {
     const newUser = new this.userModel({
       name: name,
       email: email,
       password: password,
       userName: userName,
+      role: role,
     });
     const result = await newUser.save();
     return result;
