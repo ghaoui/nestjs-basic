@@ -18,6 +18,7 @@ export class UsersService {
     password: string,
     userName: string,
     role: string,
+    companyId: string,
   ) {
     const newUser = new this.userModel({
       name: name,
@@ -25,6 +26,7 @@ export class UsersService {
       password: password,
       userName: userName,
       role: role,
+      companyId: companyId,
     });
     const result = await newUser.save();
     return result;
