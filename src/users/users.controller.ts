@@ -55,6 +55,13 @@ export class UsersController {
     //return 'hamdi';
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @hasRoles('admin')
+  @Get('companies')
+  getAllCompanies() {
+    return this.usersService.findAllCompanies();
+  }
+
   @Get()
   findAll() {
     console.log('salut');
