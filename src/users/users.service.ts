@@ -59,10 +59,9 @@ export class UsersService {
   }
 
   async findAllCompanies() {
-    const result = await this.userModel.find(
-      { role: 'owner' },
-      { password: 0 },
-    );
+    const result = await this.userModel
+      .find({ role: 'owner' }, { password: 0 })
+      .populate('companyId');
     return result;
   }
 }

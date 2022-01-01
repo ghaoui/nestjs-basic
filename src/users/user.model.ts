@@ -6,7 +6,7 @@ export const UserSchema = new mongoose.Schema({
   password: { type: String, required: true },
   userName: { type: String, required: true },
   role: { type: String, required: true },
-  companyId: { type: String },
+  companyId: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' },
 });
 
 export interface User {
