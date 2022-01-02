@@ -28,22 +28,33 @@ export class UsersController {
     console.log(this);
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @hasRoles('owner', 'admin')
   @Post()
-  create(
+  async create(
     @Body('name') name: string,
     @Body('password') password: string,
     @Body('email') email: string,
     @Body('userName') userName: string,
     @Body('role') role: string,
     @Body('companyId') companyId: string,
+    @Request() req,
   ) {
+    let newCompanyId = companyId;
+    if (!companyId) {
+      const owner = await this.usersService.findOne(req.user.username);
+      console.log(owner);
+      const company = owner?.companyId;
+      newCompanyId = company['_id']?.toString();
+    }
+
     return this.usersService.create(
       name,
       password,
       email,
       userName,
       role,
-      companyId,
+      newCompanyId,
     );
   }
 

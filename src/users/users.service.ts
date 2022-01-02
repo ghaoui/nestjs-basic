@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 
 import { UpdateUserDto } from './dto/update-user.dto';
 
@@ -26,7 +26,7 @@ export class UsersService {
       password: password,
       userName: userName,
       role: role,
-      companyId: companyId,
+      companyId: new Types.ObjectId(companyId),
     });
     const result = await newUser.save();
     return result;
@@ -35,10 +35,12 @@ export class UsersService {
   async findAll(companyId: any) {
     //const id = companyId?._id;
 
-    const result = await this.userModel.find({
-      role: 'client',
-      companyId: companyId?._id,
-    });
+    const result = await this.userModel
+      .find({
+        role: 'client',
+        companyId: companyId?._id,
+      })
+      .populate('companyId');
     return result;
   }
 
