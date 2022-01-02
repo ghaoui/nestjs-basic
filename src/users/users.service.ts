@@ -59,9 +59,43 @@ export class UsersService {
   }
 
   async findAllCompanies() {
-    const result = await this.userModel
-      .find({ role: 'owner' }, { password: 0 })
-      .populate('companyId');
+    // const result = await this.userModel
+    //   .find({ role: 'owner' }, { password: 0 })
+    //   .populate('companyId');
+
+    const result = await this.userModel.aggregate([
+      { $match: { role: 'owner' } },
+      {
+        $lookup: {
+          from: 'companies',
+          localField: 'companyId',
+          foreignField: '_id',
+          as: 'company',
+        },
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: '_id',
+          foreignField: 'companyId',
+          as: 'users',
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          email: 1,
+          userName: 1,
+          role: 1,
+          company: {
+            _id: 1,
+            name: 1,
+          },
+        },
+      },
+    ]);
+
     return result;
   }
 }

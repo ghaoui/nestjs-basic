@@ -47,7 +47,7 @@ export class UsersController {
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @hasRoles('admin')
+  @hasRoles('owner')
   @Get('clients')
   clients() {
     console.log('test');
