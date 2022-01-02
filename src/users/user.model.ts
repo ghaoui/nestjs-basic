@@ -16,4 +16,5 @@ export interface User {
   password: string;
   userName: string;
   role: string;
+  companyId: string;
 }

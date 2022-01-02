@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Request,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -49,9 +50,11 @@ export class UsersController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @hasRoles('owner')
   @Get('clients')
-  clients() {
-    console.log('test');
-    return this.usersService.findAll();
+  async clients(@Request() req) {
+    console.log(req.user);
+    const owner = await this.usersService.findOne(req.user.username);
+    console.log(owner);
+    return this.usersService.findAll(owner?.companyId);
     //return 'hamdi';
   }
 
@@ -62,11 +65,11 @@ export class UsersController {
     return this.usersService.findAllCompanies();
   }
 
-  @Get()
-  findAll() {
-    console.log('salut');
-    return this.usersService.findAll();
-  }
+  // @Get()
+  // findAll() {
+  //   console.log('salut');
+  //   return this.usersService.findAll();
+  // }
 
   @Get(':id')
   findOne(@Param('id') userName: string) {

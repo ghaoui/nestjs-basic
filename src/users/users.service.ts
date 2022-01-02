@@ -32,14 +32,21 @@ export class UsersService {
     return result;
   }
 
-  async findAll() {
-    console.log('findAll');
-    const result = await this.userModel.find({ role: 'client' });
+  async findAll(companyId: any) {
+    //const id = companyId?._id;
+
+    const result = await this.userModel.find({
+      role: 'client',
+      companyId: companyId?._id,
+    });
     return result;
   }
 
   async findOne(userName: string) {
-    const result = await this.userModel.findOne({ userName: userName }).lean();
+    const result = await this.userModel
+      .findOne({ userName: userName })
+      .populate('companyId')
+      .lean();
 
     if (result) {
       return {
